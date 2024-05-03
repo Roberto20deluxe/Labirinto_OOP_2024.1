@@ -20,7 +20,7 @@ https://www.youtube.com/watch?v=6iHdVa9YQtI&pp=ygUNcm9kb2xmbyBwb3Jjbw%3D%3D
 
 **1. Classes(10%):**
 
-    ••Aventureiro: Esta classe representa o bravo aventureiro no jogo. 
+    •Aventureiro: Esta classe representa o bravo aventureiro no jogo. 
 
      -Atributos: nome, localização atual no labirinto, tesouros coletados(ArrayList) 
      -Métodos: getters e setters para os atributos, mover-se pelo labirinto, coletar tesouro.
