@@ -25,17 +25,17 @@ https://www.youtube.com/watch?v=6iHdVa9YQtI&pp=ygUNcm9kb2xmbyBwb3Jjbw%3D%3D
      -Atributos: nome, localização atual no labirinto, tesouros coletados(ArrayList) 
      -Métodos: getters e setters para os atributos, mover-se pelo labirinto, coletar tesouro.
 
-    ••Tesouro: Esta classe representa um tesouro que pode ser descoberto no jogo. 
+    •Tesouro: Esta classe representa um tesouro que pode ser descoberto no jogo. 
 
       -Atributos: nome, localização no labirinto, valor em pontos.
       -Métodos: getters e setters para os atributos.
 
-    ••Perigo: Esta classe representa um perigo/armadilha que o aventureiro deve evitar no jogo. 
+    •Perigo: Esta classe representa um perigo/armadilha que o aventureiro deve evitar no jogo. 
 
      -Atributos: localização no labirinto, dano potencial.
      -Métodos: getters e setters para os atributos.
 
-    ••Labirinto: Esta classe representa o labirinto e contém a lógica principal do jogo. 
+    •Labirinto: Esta classe representa o labirinto e contém a lógica principal do jogo. 
 
       -Atributos: estrutura do labirinto (ArrayList de ArrayLists), lista de tesouros (ArrayList), lista de perigos (ArrayList).
       -Métodos: gerar labirinto, adicionar tesouro, remover tesouro, adicionar perigo, remover perigo.
