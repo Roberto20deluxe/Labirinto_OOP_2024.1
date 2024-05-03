@@ -10,6 +10,8 @@
 
 **Disciplina:** Programação Orientada a Objetos (2024.1)
 
-**Professor:** Lucas Rodolfo
+**Professor:** Lucas Rodolfo 
+https://www.youtube.com/watch?v=6iHdVa9YQtI&pp=ygUNcm9kb2xmbyBwb3Jjbw%3D%3D
+
 
 Um labirinto
