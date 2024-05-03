@@ -7,7 +7,7 @@
 - Vínicius Martins Galindo Andrade (**RA:** 00000848753)
 - Matheus Veríssimo Rodrigues (**00000850062**)
 - Victor Hugo José Sales da Silva(**00000849201**)
-- 
+
 **Disciplina:** Programação Orientada a Objetos (2024.1)
 
 **Professor:** Lucas Rodolfo
