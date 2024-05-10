@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../Codes/Java Codes"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"assíncrona outr": "c"
+		}
+	}
+}
