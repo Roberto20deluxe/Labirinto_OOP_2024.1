@@ -19,7 +19,7 @@ public class main {
 		window.setLocationRelativeTo(null); //Inicar janela no meio
 		window.setVisible(true); //Permite ver a janela
 		
+		gamePanel.setupGame();
 		gamePanel.startGameThread();
 	}
-
 }
