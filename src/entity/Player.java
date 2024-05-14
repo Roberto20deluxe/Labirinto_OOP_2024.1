@@ -1,32 +1,48 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import main.GamePanel;
 import main.KeyHandler;
+
 
 public class Player extends Entity {
 	
 	GamePanel gp;
 	KeyHandler keyH;
 	
+	public final int screenX;
+	public final int screenY;
+	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		
 		this.gp = gp;
 		this.keyH = keyH;
+		
+		screenX = gp.screenWidth/2 - (gp.tileSize/2);
+		screenY = gp.screenHeight/2 - (gp.tileSize/2);
+		
+		
+		//Change hit box size depending on preference
+		hitBox = new Rectangle(); 
+		hitBox.x = 8;
+		hitBox.y = 16;
+		hitBox.width = 32;
+		hitBox.height = 32;
+		
 		
 		defaultValues();
 		getPlayerImage();
 	}
 	public void defaultValues() {
 		
-		x = 100;
-		y = 100;
-		speed = 4;
+		worldX = gp.tileSize*23;
+		worldY = gp.tileSize*22;
+		speed = 2;
 		direction = "down";
 		
 	}
@@ -35,14 +51,14 @@ public class Player extends Entity {
 		
 		try {
 			
-			up1 = ImageIO.read(getClass().getResourceAsStream("/player/Sprite up.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/player/Sprite up 2.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/new_left_1.png"));
-			left2 = ImageIO.read(getClass().getResourceAsStream("/player/new_left_2.png"));
-			down1 = ImageIO.read(getClass().getResourceAsStream("/player/Sprite down (1).png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/player/Sprite down (2).png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/player/new_right_1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/player/new_right_2.png"));
+			up1 = ImageIO.read(new File("res/player/Sprite up.png"));
+			up2 = ImageIO.read(new File("res/player/Sprite up 2.png"));
+			left1 = ImageIO.read(new File("res/player/new_left_1.png"));
+			left2 = ImageIO.read(new File("res/player/new_left_2.png"));
+			down1 = ImageIO.read(new File("res/player/Sprite down (1).png"));
+			down2 = ImageIO.read(new File("res/player/Sprite down (2).png"));
+			right1 = ImageIO.read(new File("res/player/new_right_1.png"));
+			right2 = ImageIO.read(new File("res/player/new_right_2.png"));
 			
 			
 		}catch(IOException e) {
@@ -58,24 +74,48 @@ public class Player extends Entity {
 			
 			if(keyH.upPressed == true) {
 				direction = "up";
-				y -= speed;
+				
 				
 			}
 			
 			else if(keyH.leftPressed == true) {
 				direction = "left";
-				x -= speed;
+				
 			}
 			
 			else if(keyH.rightPressed == true) {
 				direction = "right";
-				x += speed;
+				
 			}
 			
 			else if(keyH.downPressed == true) {
 				direction = "down";
-				y += speed;
+				
 			}
+			
+			//Checar colisão do tile
+			collisionOn = false;
+			gp.cChecker.checkTile(this);
+			
+			//Se colisão for falsa player pode se mover
+			if(collisionOn == false) {
+				
+				switch(direction) {
+				case "up":
+					worldY -= speed;
+					break;
+				case "left":
+					worldX -= speed;
+					break;
+				case "down":
+					worldY += speed;
+					break;
+				case "right":
+					worldX += speed;
+					break;
+				}
+			}
+			
 			spriteCounter++;
 			if (spriteCounter > 10) {
 				if(spriteNum == 1) {
@@ -134,7 +174,7 @@ public class Player extends Entity {
 		
 		
 		}
-		g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 	
 	}
 }

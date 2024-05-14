@@ -6,8 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import entity.Player;
+import tile.TileManager;
 
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable {
 	
 	//configurações de tela
@@ -15,29 +17,33 @@ public class GamePanel extends JPanel implements Runnable {
 	final int scale = 3; // 16x3 = 48 tamanho da tela
 	
 	public final int tileSize = originalTileSize * scale; //48x48 tiles
-	final int maxScreenColumn = 16;
-	final int maxScreenRow  =12; //Makes the ratio 4:3
-	final int screenWidth = tileSize * maxScreenColumn; //768 pixels
-	final int screenHeight = tileSize * maxScreenRow; //576 pixels
+	public final int maxScreenColumn = 16;
+	public final int maxScreenRow  =12; //Makes the ratio 4:3
+	public final int screenWidth = tileSize * maxScreenColumn; //768 pixels
+	public final int screenHeight = tileSize * maxScreenRow; //576 pixels
 	
-	//FPS
+	//World settings
+	public final int maxWorldCol = 50;
+	public final int maxWorldRow = 50;
+	public final int worldWidght = tileSize * maxWorldCol;
+	public final int worldHeight = tileSize * maxWorldRow;
+	
+	
+	
 	int FPS = 60;
+	
+	TileManager tileM = new TileManager(this);
 	
 	Thread gameThread; 
 	KeyHandler keyH = new KeyHandler();
-	Player player = new Player(this,keyH);
-	
-	//Posição do jogador. (Em JAVA canto superior esquerdo = x=0 e y=0)
-	int playerX = 100; 
-	int playerY = 100;
-	int playerSpeed = 4; // 4 pixels
-	
+	public CollisionChecker cChecker = new CollisionChecker(this);
+	public Player player = new Player(this,keyH);
 	
 	
 	public GamePanel() {
 		
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		this.setBackground(Color.green.darker().darker());
+		this.setBackground(Color.green.darker().darker().darker().darker().darker());
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
@@ -100,6 +106,8 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g); //super significa que é para classe parente dessa classe a.k.a JPanel
 		
 		Graphics2D g2 = (Graphics2D)g;  // Graphics2D class extends the graphics class to provide more sophisticated control over gemoatry, coordiante tranformations, color menagement, and text layout.
+		
+		tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
 		
 		player.draw(g2);
 		
