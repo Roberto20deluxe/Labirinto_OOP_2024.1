@@ -50,6 +50,9 @@ public class Player extends Entity {
 		speed = 2;
 		direction = "down";
 		
+		// STATUS DO JOGADOR
+		maxLife = 6;
+		life = maxLife;
 	}
 	
 	public void getPlayerImage() {

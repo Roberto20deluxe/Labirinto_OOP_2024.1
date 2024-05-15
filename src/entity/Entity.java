@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 
 public class Entity {
 	
@@ -15,4 +16,7 @@ public class Entity {
 	public Rectangle hitBox;
 	public int hitBoxDefaultX, hitBoxDefaultY;
 	public boolean collisionOn = false;
+	
+	public int maxLife;
+	public int life;
 }
