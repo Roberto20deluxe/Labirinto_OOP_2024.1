@@ -19,13 +19,13 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public final int tileSize = originalTileSize * scale; //48x48 tiles
 	public final int maxScreenColumn = 16;
-	public final int maxScreenRow  =12; //Makes the ratio 4:3
+	public final int maxScreenRow  = 12; //Makes the ratio 4:3
 	public final int screenWidth = tileSize * maxScreenColumn; //768 pixels
 	public final int screenHeight = tileSize * maxScreenRow; //576 pixels
 	
 	//World settings
-	public final int maxWorldCol = 50;
-	public final int maxWorldRow = 50;
+	public final int maxWorldCol = 144;
+	public final int maxWorldRow = 144;
 	public final int worldWidght = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
 	
@@ -39,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
 	KeyHandler keyH = new KeyHandler();
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	AssetSetter aSetter = new AssetSetter(this);
+	public UI ui = new UI(this);
 	public Player player = new Player(this,keyH);
 	public SuperObject obj[] = new SuperObject[10];
 	
@@ -113,13 +114,21 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	public void paintComponent(Graphics g) {
 		
-		super.paintComponent(g); //super significa que é para classe parente dessa classe a.k.a JPanel
+		super.paintComponent(g); 
 		
 		Graphics2D g2 = (Graphics2D)g;  // Graphics2D class extends the graphics class to provide more sophisticated control over gemoatry, coordiante tranformations, color menagement, and text layout.
 		
 		tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
 		
+		for(int i = 0; i < obj.length; i++) {
+			if(obj[i] != null) {
+				obj[i].draw(g2, this);
+			}
+		}
+		
 		player.draw(g2);
+		
+		ui.draw(g2);
 		
 		g2.dispose();
 		

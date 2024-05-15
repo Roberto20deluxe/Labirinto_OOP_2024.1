@@ -17,6 +17,9 @@ public class Player extends Entity {
 	
 	public final int screenX;
 	public final int screenY;
+	public int openChest = 0;
+	public int hasKey = 0;
+
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		
@@ -31,6 +34,8 @@ public class Player extends Entity {
 		hitBox = new Rectangle(); 
 		hitBox.x = 8;
 		hitBox.y = 16;
+		hitBoxDefaultX = hitBox.x;
+		hitBoxDefaultY = hitBox.y;
 		hitBox.width = 32;
 		hitBox.height = 32;
 		
@@ -40,8 +45,8 @@ public class Player extends Entity {
 	}
 	public void defaultValues() {
 		
-		worldX = gp.tileSize*25;
-		worldY = gp.tileSize*25;
+		worldX = gp.tileSize*70;
+		worldY = gp.tileSize*71;
 		speed = 2;
 		direction = "down";
 		
@@ -97,6 +102,10 @@ public class Player extends Entity {
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 			
+			// Checar colisão objeto
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
+			
 			//Se colisão for falsa player pode se mover
 			if(collisionOn == false) {
 				
@@ -128,6 +137,43 @@ public class Player extends Entity {
 			}
 			
 		}
+	}
+	public void pickUpObject(int i) {
+		
+		if(i != 999) {
+			
+			String objectName = gp.obj[i].name;
+			
+			
+			switch(objectName) {
+			case"key":
+				hasKey++;
+				gp.obj[i] = null;
+				gp.ui.showMessage("You got a key!");
+				break;
+			case "chest":
+				openChest++;
+				gp.obj[i] = null;
+				gp.ui.showMessage("You have opened a chest");
+				break;
+			case "door":
+				if(hasKey > 0) {
+					gp.obj[i] = null;
+					hasKey--;
+				}else {
+					gp.ui.showMessage("You need the key");
+				}
+					break;
+				
+			case "speedChest":
+				speed = (int) (speed*1.5);
+				gp.obj[i] = null;
+				gp.ui.showMessage("Speed chest opened");
+				break;
+			
+			}
+		}
+		
 	}
 	
 	
