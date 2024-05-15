@@ -17,7 +17,7 @@ public class UI {
 	public UI (GamePanel gp) {
 		this.gp = gp;
 	
-		// Criando objeto do hud
+		// Criando hud do projeto
 		SuperObject heart = new OBJ_Heart(gp);
 		heart_full = heart.image;
 		heart_half = heart.image2;
@@ -39,6 +39,36 @@ public class UI {
 		if (gp.gamesState == gp.dialogueState) {
 			drawPlayerLife();
 			drawDialogueScree();
+		}
+	}
+
+	public void drawPlayerLife(){
+		int x = gp.tileSize/2;
+		int y = gp.tileSize/2;
+		int i = 0;
+
+		// Desenha o coração vazio
+		while (i < gp.player.maxLife/2){
+			g2.drawImage(heart_blank, x, y , null);
+			i++;
+			x += gp.tileSize;
+		}
+
+		// Reset das variaveis;
+
+		x = gp.tileSize/2;
+		y = gp.tileSize/2;
+		i = 0;
+
+		while (i < gp.player.life){
+			g2.drawImage(heart_half, x, y, null);
+			i++;
+			
+			if(i < gp.player.life){
+				g2.drawImage(heart_full, x, y, null);
+			}
+			i++;
+			x += gp.tileSize;
 		}
 	}
 }
