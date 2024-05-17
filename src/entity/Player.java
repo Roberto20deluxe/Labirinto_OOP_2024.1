@@ -99,6 +99,9 @@ public class Player extends Entity {
 			//Checar colisão do tile
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
+
+			// CHECAR EVENTO
+			gp.eHandler.checkEvent();
 			
 			//Se colisão for falsa player pode se mover
 			if(collisionOn == false) {
