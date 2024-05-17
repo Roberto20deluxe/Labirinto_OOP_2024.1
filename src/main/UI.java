@@ -24,7 +24,7 @@ public class UI {
 		heart_blank = heart.image3;
 	}
 	
-	public void draw(Graphics2D g2) {
+	/*public void draw(Graphics2D g2) {
 		this.g2 = g2;
 		
 		if (gp.gameState == gp.playState) {
@@ -40,7 +40,7 @@ public class UI {
 			drawPlayerLife();
 			drawDialogueScree();
 		}
-	}
+	}*/
 
 	public void drawPlayerLife(){
 		int x = gp.tileSize/2;
