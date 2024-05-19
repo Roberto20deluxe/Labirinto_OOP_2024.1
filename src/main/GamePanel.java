@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
+
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
@@ -41,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 	AssetSetter aSetter = new AssetSetter(this);
 	public Player player = new Player(this,keyH);
 	public SuperObject obj[] = new SuperObject[10];
-	
+	public Entity monster[]=new Entity[20];
 	
 	public GamePanel() {
 		
@@ -56,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void setupGame(){
 		
 		aSetter.setObject();
+		aSetter.setMonster();
 		
 		
 	}
@@ -109,6 +112,16 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		
 		player.update();
+
+		if(gameState==playState){
+			player.update();
+
+			for(int i=0;i<mosnter.lenght;i++){
+				if(monster[i]!=null){
+					monster[i].update();
+				}
+			}
+		}		
 		
 	}
 	public void paintComponent(Graphics g) {
@@ -123,6 +136,18 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		g2.dispose();
 		
+		if(gameState==titleState){
+
+		}
+		else{
+
+			for(int i=0;i<monster.length;i++){
+				if(monster[i]!=null){
+					entityList.add(monster[i]);
+				}
+			}
+			
+		}
 		
 	}
 	

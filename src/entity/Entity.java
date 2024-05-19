@@ -16,6 +16,27 @@ public class Entity {
 	public Rectangle hitBox;
 	public boolean collisionOn = false;
 	
+	public boolean invincible=false;
+	public int invincibleCounter=0;
+
+	public int type; //0=player, 2=monster
+
 	public int maxLife;
 	public int life;
+
+	public void update(){
+		
+		gp.cChecker.checkEntity(this, gp.monster);
+
+		boolean contactPlayer=gp.cChecker.checkPlayer(this)
+		
+		if(this.type==2 && contactPlayer){
+			if(!gp.player.invincible){
+				gp.player.life-=1;
+				gp.player.invincible=true;
+			}
+		}
+
+	}
+
 }

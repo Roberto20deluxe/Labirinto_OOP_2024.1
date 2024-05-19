@@ -63,4 +63,34 @@ public class CollisionChecker {
 		
 	}
 	
+	public int checkEntity(Entity entity, Entity[] target){
+
+		int index=999;
+		for(int i=0;i<target.length;i++){
+			if(target[i]!=null){
+
+				if(entity.hitBox.intersects(target[i].hitBox)){
+					if(target[i]!=entity){
+						entity.collisionOn=true;
+						index=i;
+					}
+				}
+
+			}
+		}
+
+	}
+
+	public boolean checkPlayer(Entity entity){
+		boolean contactPlayer=false;
+
+
+		if(entity.hitBox.intersects(gp.player.hitBox)){
+			entity.collisionOn=true;
+			contactPlayer=true;
+		}
+
+		return contactPlayer;
+	}
+
 }

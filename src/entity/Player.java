@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -100,6 +101,10 @@ public class Player extends Entity {
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 			
+			//checar colisao do monster
+			int monsterIndex=gp.cChecker.checkEntity(this, gp.monster);
+			contactMonster(monsterIndex);
+
 			//Se colisão for falsa player pode se mover
 			if(collisionOn == false) {
 				
@@ -131,9 +136,26 @@ public class Player extends Entity {
 			}
 			
 		}
+	
+		//fora do if key
+		if(invincible){
+			invincibleCounter++;
+			if(invincibleCounter>60){
+				invincible=false;
+				invincibleCounter=0;
+			}
+		}
+
 	}
 	
-	
+	public void contactMonster(int i){
+		if(i!=999){
+			if(!invincible){
+				life-=1;
+				invincible=true;
+			}
+		}
+	}
 	
 	
 	public void draw(Graphics2D g2){
@@ -177,8 +199,23 @@ public class Player extends Entity {
 		
 		
 		}
+
+		//fazer player meio transparente ao receber dano
+		if(invincible){
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+		}
+
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+		//reset o if anterior
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 	
+		/*ver isso depois --------
+		g2.setFont(new Font("Arial", Font.PLAIN, 26));
+		g2.setColor(Color.white);
+		g2.drawString("Invincible:"+invincibleCounter, 10, 400);
+		*/
+
 	}
 }
 
