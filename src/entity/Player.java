@@ -104,6 +104,9 @@ public class Player extends Entity {
 			//Checar colisão do tile
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
+
+			// CHECAR EVENTO
+			gp.eHandler.checkEvent();
 			
 			// Checar colisão objeto
 			int objIndex = gp.cChecker.checkObject(this, true);
