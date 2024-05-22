@@ -22,10 +22,10 @@ public class UI {
 		this.gp = gp;
 	
 		try{
-			InputsStream is = getClass().getResourceAsStream("/font/Retro Gaming.ttf");
+			InputStream is = getClass().getResourceAsStream("/font/Retro Gaming.ttf");
 			Retro_Gaming= Font.createFont(Font.TRUETYPE_FONT, is);
 
-			InputsStream is = getClass().getResourceAsStream("/font/Perfect DOS VGA.ttf");
+			InputStream is = getClass().getResourceAsStream("/font/Perfect DOS VGA.ttf");
 			Perfect_DOS_VGA= Font.createFont(Font.TRUETYPE_FONT, is);
 		}
 		catch(FontFormatException e){
