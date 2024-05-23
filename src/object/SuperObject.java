@@ -5,21 +5,18 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class SuperObject {
 	
-<<<<<<< HEAD
-	public BufferedImage image;
-=======
-	public boolean collision = false;
 	public BufferedImage image, image2, image3;
->>>>>>> 0642ec38f32e19ca80f1576233cefe1292bf5c23
 	public String name;
 	public boolean collision = false;
 	public int worldX, worldY;
 	public Rectangle hitBox = new Rectangle(0, 0, 48, 48);
 	public int hitBoxDefaultX = 0;
 	public int hitBoxDefaultY = 0;
+	UtilityTool uTool = new UtilityTool();
 	
 	public void draw(Graphics2D g2, GamePanel gp) {
 		

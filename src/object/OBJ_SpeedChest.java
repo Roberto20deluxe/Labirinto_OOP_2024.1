@@ -4,18 +4,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class OBJ_SpeedChest extends SuperObject{
+import entity.Entity;
+import main.GamePanel;
+
+public class OBJ_SpeedChest extends Entity{
 	
-	public OBJ_SpeedChest() {
+	public OBJ_SpeedChest(GamePanel gp) {
 		
+		super(gp);
 		name = "speedChest";
-		
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/objects/SpeedChestTile.png.png"));
-		}catch(IOException e) {
-			e.printStackTrace();
-			
-		}
+		down1 = setup("/objects/SpeedChestTile.png");
 	
 	
 	}

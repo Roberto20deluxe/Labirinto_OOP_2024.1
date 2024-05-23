@@ -1,6 +1,7 @@
 package tile;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class TileManager {
 	GamePanel gp;
@@ -31,25 +33,25 @@ public class TileManager {
 
 	public void getTileImage() {
 		
+			setup(0, "GrassTile (1)", false);
+			setup(1, "TreeTile", true);
+			setup(2, "WaterTile1", true);
+			setup(3, "SandTile", false);
+	
+		
+		
+	}
+	public void setup(int index, String imageName, boolean collision) {
+		
+		UtilityTool uTool = new UtilityTool();
+		
 		try {
-			
-			tile[0] = new Tile();
-			tile[0].image = ImageIO.read(new File("res/tiles/GrassTile (1).png"));
-			
-			tile[1] = new Tile();
-			tile[1].image = ImageIO.read(new File("res/tiles/TreeTile.png"));
-			tile[1].collision = true;
-			
-			tile[2] = new Tile();
-			tile[2].image = ImageIO.read(new File("res/tiles/WaterTile1.png"));
-			tile[2].collision = true;
-			
-			tile[3] = new Tile();
-			tile[3].image = ImageIO.read(new File("res/tiles/SandTile.png"));
-			
+			tile[index] = new Tile();
+			tile[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + imageName + ".png"));
+			tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+			tile[index].collision = collision;
 		}catch(IOException e){
 			e.printStackTrace();
-			
 		}
 		
 	}

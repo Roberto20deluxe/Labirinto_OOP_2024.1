@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 
 public class Player extends Entity {
@@ -23,6 +24,7 @@ public class Player extends Entity {
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		
+		super(gp);
 		this.gp = gp;
 		this.keyH = keyH;
 		
@@ -30,7 +32,7 @@ public class Player extends Entity {
 		screenY = gp.screenHeight/2 - (gp.tileSize/2);
 		
 		
-		//Change hit box size depending on preference
+		
 		hitBox = new Rectangle(); 
 		hitBox.x = 8;
 		hitBox.y = 16;
@@ -53,28 +55,25 @@ public class Player extends Entity {
 		// STATUS DO JOGADOR
 		maxLife = 6;
 		life = maxLife;
+		
 	}
 	
 	public void getPlayerImage() {
+	
 		
-		try {
-			
-			up1 = ImageIO.read(new File("res/player/Sprite up.png"));
-			up2 = ImageIO.read(new File("res/player/Sprite up 2.png"));
-			left1 = ImageIO.read(new File("res/player/new_left_1.png"));
-			left2 = ImageIO.read(new File("res/player/new_left_2.png"));
-			down1 = ImageIO.read(new File("res/player/Sprite down (1).png"));
-			down2 = ImageIO.read(new File("res/player/Sprite down (2).png"));
-			right1 = ImageIO.read(new File("res/player/new_right_1.png"));
-			right2 = ImageIO.read(new File("res/player/new_right_2.png"));
-			
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		up1 = setup("/player/Sprite up");
+		up2 = setup("/player/Sprite up 2");
+		left1 = setup("/player/new_left_1");
+		left2 = setup("/player/new_left_2");
+		down1 = setup("/player/Sprite down (1)");
+		down2 = setup("/player/Sprite down (2)");
+		right1 = setup("/player/new_right_1");
+		right2 = setup("/player/new_right_2");
+		
 	}
 	
-	public void update() {
+	
+		public void update() {
 		
 		if(keyH.upPressed == true || keyH.leftPressed == true || keyH.downPressed == true || keyH.rightPressed == true) {
 			
@@ -105,9 +104,21 @@ public class Player extends Entity {
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 			
+			//checar colisao do monster
+			int monsterIndex=gp.cChecker.checkEntity(this, gp.monster);
+			//contactMonster(monsterIndex);
+			
+			// CHECAR EVENTO
+			gp.eHandler.checkEvent();
+			
 			// Checar colisão objeto
 			int objIndex = gp.cChecker.checkObject(this, true);
 			pickUpObject(objIndex);
+			
+			
+			
+			// CHECAR EVENTO
+			gp.eHandler.checkEvent();
 			
 			//Se colisão for falsa player pode se mover
 			if(collisionOn == false) {
@@ -141,6 +152,14 @@ public class Player extends Entity {
 			
 		}
 	}
+	
+	boolean isAtCenterOfTile(int x, int y, int tileSize) {
+	    int tileCenterX = (x / tileSize) * tileSize + tileSize / 2;
+	    int tileCenterY = (y / tileSize) * tileSize + tileSize / 2;
+	    return Math.abs(x + hitBox.width / 2 - tileCenterX) < speed && Math.abs(y + hitBox.height / 2 - tileCenterY) < speed;
+    }
+
+	
 	public void pickUpObject(int i) {
 		
 		if(i != 999) {
@@ -149,31 +168,39 @@ public class Player extends Entity {
 			
 			
 			switch(objectName) {
+			
 			case"key":
 				hasKey++;
 				gp.obj[i] = null;
-				gp.ui.showMessage("You got a key!");
+				gp.ui.currentDialogue = "You got a key!";
+				gp.gameState = gp.dialogueState;
 				break;
 			case "chest":
 				openChest++;
 				gp.obj[i] = null;
-				gp.ui.showMessage("You have opened a chest");
+				gp.ui.currentDialogue = "You have oppened a chest!";
+				gp.gameState = gp.dialogueState;
 				break;
 			case "door":
 				if(hasKey > 0) {
 					gp.obj[i] = null;
 					hasKey--;
+					gp.ui.currentDialogue = "Door unlocked";
+					gp.gameState = gp.dialogueState;
 				}else {
-					gp.ui.showMessage("You need the key");
+					gp.ui.currentDialogue = "You need a key";
+					gp.gameState = gp.dialogueState;
 				}
 					break;
 				
 			case "speedChest":
 				speed = (int) (speed*1.5);
 				gp.obj[i] = null;
-				gp.ui.showMessage("Speed chest opened");
-				break;
-			
+				gp.ui.currentDialogue = "Speed Chest Opened!";
+				gp.gameState = gp.dialogueState;
+				break;  
+				
+				
 			}
 		}
 		
@@ -223,7 +250,7 @@ public class Player extends Entity {
 		
 		
 		}
-		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		g2.drawImage(image, screenX, screenY, null);
 	
 	}
 }

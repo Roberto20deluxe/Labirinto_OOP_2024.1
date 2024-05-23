@@ -4,20 +4,21 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class OBJ_Trap extends SuperObject {
+import entity.Entity;
+import main.GamePanel;
+
+public class OBJ_Trap extends Entity {
 	
-public OBJ_Trap() {
+	
+	public OBJ_Trap(GamePanel gp) {
+			
+		super(gp);
 		
 		name = "trap";
-		
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/objects/trapTile.png"));
-		}catch(IOException e) {
-			e.printStackTrace();
+		down1 = setup("/objects/trapTile");
 			
+		
+		
 		}
 	
-	
 	}
-
-}

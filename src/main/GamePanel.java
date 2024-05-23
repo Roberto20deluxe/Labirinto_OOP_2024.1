@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.swing.JPanel;
+
+import entity.Entity;
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
 
 
@@ -28,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int maxWorldRow = 144;
 	public final int worldWidght = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
-	
+	private GamePanel gp;
 	
 	
 	int FPS = 60;
@@ -36,12 +41,23 @@ public class GamePanel extends JPanel implements Runnable {
 	TileManager tileM = new TileManager(this);
 	
 	Thread gameThread; 
-	KeyHandler keyH = new KeyHandler();
+	KeyHandler keyH = new KeyHandler(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	AssetSetter aSetter = new AssetSetter(this);
 	public UI ui = new UI(this);
+	public EventHandler eHandler = new EventHandler(this);
+	
 	public Player player = new Player(this,keyH);
-	public SuperObject obj[] = new SuperObject[10];
+	public Entity obj[] = new Entity[30];
+	public Entity npc[] = new Entity[0];
+	public Entity monster[] = new Entity[20];
+	ArrayList<Entity> entityList = new ArrayList<>();
+
+	public int gameState;
+	public final int titleState = 0;
+	public final int playState = 1;
+	public final int pauseState = 2;
+	public int dialogueState = 3;
 	
 	
 	public GamePanel() {
@@ -51,12 +67,16 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
+		this.gp = this;
+		player = new Player(this, keyH);
 		
 	}
 	
 	public void setupGame(){
 		
 		aSetter.setObject();
+		aSetter.setMonster();
+		gameState = titleState;
 		
 		
 	}
@@ -109,31 +129,96 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	public void update() {
 		
-		player.update();
+		if(gameState == playState) {
+			player.update();
+			}
+		if(gameState == pauseState) {
+			//nada kkkk
+		}
 		
+		for(int i = 0 ;i < monster.length; i++){
+			if(monster[i] !=null){
+				monster[i].update();
+		
+			}
+	}
 	}
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g); 
 		
-		Graphics2D g2 = (Graphics2D)g;  // Graphics2D class extends the graphics class to provide more sophisticated control over gemoatry, coordiante tranformations, color menagement, and text layout.
+		Graphics2D g2 = (Graphics2D)g;  // Graphics2D class extends the graphics class to provide more sophisticated control over gemoetry, coordiante tranformations, color menagement, and text layout.
 		
-		tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
-		
-		for(int i = 0; i < obj.length; i++) {
-			if(obj[i] != null) {
-				obj[i].draw(g2, this);
-			}
+		//DEBUG
+		long drawStart = 0;
+		if(keyH.checkDrawTime == true) {
+			drawStart = System.nanoTime();
 		}
 		
-		player.draw(g2);
+		if(keyH.checkDrawTime == true) {
+			long drawEnd = System.nanoTime();
+			long passed = drawEnd - drawStart;
+			g2.setColor(Color.white);
+			g2.drawString("DT " + passed, 510, 60);
+		}
 		
-		ui.draw(g2);
+		//TITLE SCREEN
+		if (gameState == titleState) {
+			
+			ui.draw(g2);
+		}
+		else {
 		
-		g2.dispose();
-		
-		
+			//TILE
+			tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
+			
+			//ENTIDADES
+			for(int i = 0; i < obj.length; i++) {
+			    if(obj[i] != null) {
+			        entityList.add(obj[i]);
+			    }
+			}
+			
+			for(int i = 0 ;i < monster.length; i++){
+				if(monster[i] !=null){
+					entityList.add(monster[i]);
+			
+				}
+			}
+			entityList.add(player);
+
+	
+		}
+			
+			//SORT
+			Collections.sort(entityList, new Comparator<Entity>() {
+
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					
+					int result = Integer.compare(e1.worldY, e2.worldY);
+					return 0;
+				}
+				
+				
+			});
+			
+			//DRAW ENTITIES
+			for(int i = 0; i < entityList.size(); i++) {
+				entityList.get(i).draw(g2);
+			}
+			//EMPTY ENTITY LIST
+			entityList.clear();
+			
+			//UI
+			ui.draw(g2);
+			
+			
+			
+			g2.dispose();
+			
+		}
 	}
 	
-}
+
  
