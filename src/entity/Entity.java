@@ -63,9 +63,7 @@ public class Entity {
 	}
 
 	
-	private void setAction() {
-		
-	}
+	private void setAction() {}
 	
 	public void update() {
 	    

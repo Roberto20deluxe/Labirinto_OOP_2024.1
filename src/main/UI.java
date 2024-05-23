@@ -81,7 +81,6 @@ public class UI {
 	}
 	
 	public void draw(Graphics2D g2) {
-<<<<<<< HEAD
 	    this.g2 = g2;
 	    g2.setFont(Retro_Gaming);
 	    g2.setColor(Color.white);
@@ -98,114 +97,6 @@ public class UI {
 	        drawDialogueScreen();
 	    }
 	}
-=======
-		if(gameFinished == true){
-			
-			String text;
-			int textLenght;
-			int x;
-			int y;
-			
-			text = "The End";
-			textLenght = (int) g2.getFontMetrics().getStringBounds(text,g2).getWidth();
-			
-			x = gp.screenWidth/2 - textLenght/2;
-			y = gp.screenHeight/2 - (gp.tileSize*5);
-			g2.drawString(text, x, y);
-			
-			g2.setFont(Bitmap_80B);
-			g2.setColor(Color.black);
-			
-			text = "That´s all folks, play time: " + dformat.format(playTime) + "!";
-			textLenght = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-			x = gp.screenWidth/2 - textLenght/2;
-			y = gp.screenHeight/2 - (gp.tileSize*5);
-			g2.drawString(text, x, y);
-			
-			g2.setFont(Bitmap_80B);
-			g2.setColor(Color.black);
-		}
-		
-		else {
-		
-		g2.setFont(Bitmap_40);
-		g2.setColor(Color.white);
-		
-		//TIME
-		//playTime += (double)1/60;
-		//g2.drawString("Time: " + dformat.format(playTime), gp.tileSize/2, gp.tileSize*2);
-		
-		
-		//MESSAGE
-		if(messageOn == true) {
-			
-			g2.setFont(g2.getFont().deriveFont(30F));
-			
-			
-			messageCounter++;
-			
-			
-			if(messageCounter > 120)//120 a.k.a 2 frames a.k.a 2 seconds
-				{
-				messageCounter = 0;
-				messageOn = false;
-			}
-		}
-		}
-		
-		
-		//g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-		//g2.drawString("Key = "+ gp.player.hasKey,74,50);
-		//g2.drawString("CHEST OPENED "/*/+ gp.player.openChest/*/,400,50);
-		
-		//this.g2 = g2;
-		
-		//if (gp.gameState == gp.playState) {
-			//drawPlayerLife();
-		//}
-		
-		//if (gp.gameState == gp.pauseState) {
-			//drawPlayerLife();
-			//drawPauseScreen();
-		//}
-		
-		//if (gp.gamesState == gp.dialogueState) {
-			//drawPlayerLife();
-			//drawDialogueScree();
-		//}
-=======
-	BufferedImage heart_full, heart_half, heart_blank;
-	
-
-
-	public UI (GamePanel gp) {
-		this.gp = gp;
-	
-		// Criando hud do projeto
-		SuperObject heart = new OBJ_Heart(gp);
-		heart_full = heart.image;
-		heart_half = heart.image2;
-		heart_blank = heart.image3;
-	}
-	
-	/*public void draw(Graphics2D g2) {
-		this.g2 = g2;
-		
-		if (gp.gameState == gp.playState) {
-			drawPlayerLife();
-		}
-		
-		if (gp.gameState == gp.pauseState) {
-			drawPlayerLife();
-			drawPauseScreen();
-		}
-		
-		if (gp.gamesState == gp.dialogueState) {
-			drawPlayerLife();
-			drawDialogueScree();
-		}
-	}*/
->>>>>>> 75e8e2f098e51d9d65d799b9506c035d52ef88a8
 
 	public void drawPlayerLife(){
 		

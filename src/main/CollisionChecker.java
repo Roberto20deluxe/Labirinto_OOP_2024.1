@@ -95,6 +95,7 @@ public class CollisionChecker {
             }
         }
         return index;
+    
     }
 
     public int checkEntity(Entity entity, Entity[] target) {
@@ -121,8 +122,11 @@ public class CollisionChecker {
                 }
 
                 if (entity.hitBox.intersects(target[i].hitBox)) {
-                    entity.collisionOn = true;
-                    index = i;
+                    if(target[i] != entity) {
+	                	entity.collisionOn = true;
+	                    index = i;
+	                    
+	                    }
                 }
 
                 // Reset hitBox coordinates
@@ -134,6 +138,7 @@ public class CollisionChecker {
         }
 
         return index;
+        
     }
 
     public boolean checkPlayer(Entity entity) {
@@ -142,8 +147,11 @@ public class CollisionChecker {
         if (entity.hitBox.intersects(gp.player.hitBox)) {
             entity.collisionOn = true;
             contactPlayer = true;
+        
         }
-
+        
+       
+    
         return contactPlayer;
     }
 }

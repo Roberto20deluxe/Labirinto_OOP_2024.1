@@ -12,14 +12,13 @@ public class MON_Spider extends Entity {
         super(gp);
 
         name = "Spider";
-        speed = 1;
+        speed = 2;
         maxLife = 4;
         life = maxLife;
-        
-        
+
         hitBox = new Rectangle();
         hitBox.x = 8;
-        hitBox.x = 16;
+        hitBox.y = 6;
         hitBox.width = 32;
         hitBox.height = 42;
         hitBoxDefaultX = hitBox.x;
@@ -39,28 +38,29 @@ public class MON_Spider extends Entity {
         right2 = setup("/monster/spider2right");
     }
 
-    @Override
-    public void update() {
+    public void setAction() {
         super.update(); // Call the parent class update method
 
- 
-        if (actionLockCounter >= 120) {
+        int directionChangeSpeed = 100;
+        if (actionLockCounter >= directionChangeSpeed) {
             Random random = new Random();
             int i = random.nextInt(100) + 1; // pick a number from 1 to 100
 
             if (i <= 25) {
                 direction = "up";
-            } else if (i  <= 50) {
+            }
+            if (i > 25 && i <= 50) {
                 direction = "down";
-            } else if (i <= 75) {
+            }
+            if (i > 50 && i <= 75) {
                 direction = "left";
-            } else {
+            }
+            if (i > 75 && i <= 100){
                 direction = "right";
             }
 
             actionLockCounter = 0;
         }
 
-        actionLockCounter++; 
     }
 }

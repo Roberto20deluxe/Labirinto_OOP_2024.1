@@ -48,10 +48,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public EventHandler eHandler = new EventHandler(this);
 	
 	public Player player = new Player(this,keyH);
-<<<<<<< HEAD
-	public Entity obj[] = new Entity[30];
-	public Entity npc[] = new Entity[0];
-	public Entity monster[] = new Entity[20];
+	public Entity obj[] = new Entity[10];
+	//public Entity npc[] = new Entity[0];
+	public Entity monster[] = new Entity[5];
 	ArrayList<Entity> entityList = new ArrayList<>();
 
 	public int gameState;
@@ -59,16 +58,12 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int playState = 1;
 	public final int pauseState = 2;
 	public int dialogueState = 3;
-=======
-	public SuperObject obj[] = new SuperObject[10];
-	public EventHandler eHandler = new EventHandler(this);
->>>>>>> 75e8e2f098e51d9d65d799b9506c035d52ef88a8
 	
 	
 	public GamePanel() {
 		
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		this.setBackground(Color.green.darker().darker().darker().darker().darker());
+		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
@@ -136,18 +131,18 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		if(gameState == playState) {
 			player.update();
+			for(int i = 0 ;i < monster.length; i++){
+				if(monster[i] !=null){
+					monster[i].update();
+				}
+			}
+			
 			}
 		if(gameState == pauseState) {
 			//nada kkkk
 		}
-		
-		for(int i = 0 ;i < monster.length; i++){
-			if(monster[i] !=null){
-				monster[i].update();
-		
-			}
 	}
-	}
+		
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g); 
