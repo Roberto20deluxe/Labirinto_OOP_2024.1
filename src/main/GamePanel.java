@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public EventHandler eHandler = new EventHandler(this);
 	
 	public Player player = new Player(this,keyH);
+<<<<<<< HEAD
 	public Entity obj[] = new Entity[30];
 	public Entity npc[] = new Entity[0];
 	public Entity monster[] = new Entity[20];
@@ -58,6 +59,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int playState = 1;
 	public final int pauseState = 2;
 	public int dialogueState = 3;
+=======
+	public SuperObject obj[] = new SuperObject[10];
+	public EventHandler eHandler = new EventHandler(this);
+>>>>>>> 75e8e2f098e51d9d65d799b9506c035d52ef88a8
 	
 	
 	public GamePanel() {
