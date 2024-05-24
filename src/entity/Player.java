@@ -1,19 +1,18 @@
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import main.GamePanel;
 import main.KeyHandler;
-import main.UtilityTool;
+
+
 
 
 public class Player extends Entity {
 	
-	GamePanel gp;
 	KeyHandler keyH;
 	
 	public final int screenX;
@@ -53,7 +52,7 @@ public class Player extends Entity {
 		direction = "down";
 		
 		// STATUS DO JOGADOR
-		maxLife = 6;
+		maxLife = 6+1;
 		life = maxLife;
 		
 	}
@@ -104,16 +103,21 @@ public class Player extends Entity {
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 			
+			// Checar colisão objeto
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
+						
+			
+			
 			//checar colisao do monster
 			int monsterIndex=gp.cChecker.checkEntity(this, gp.monster);
-			//contactMonster(monsterIndex);
+			contactMonster(monsterIndex);
+			
+			
 			
 			// CHECAR EVENTO
 			gp.eHandler.checkEvent();
 			
-			// Checar colisão objeto
-			int objIndex = gp.cChecker.checkObject(this, true);
-			pickUpObject(objIndex);
 			
 			
 			
@@ -139,6 +143,7 @@ public class Player extends Entity {
 				}
 			}
 			
+			
 			spriteCounter++;
 			if (spriteCounter > 10) {
 				if(spriteNum == 1) {
@@ -151,6 +156,15 @@ public class Player extends Entity {
 			}
 			
 		}
+		
+		if(invincible){
+			invincibleCounter++;
+			if(invincibleCounter>6000){
+				invincible=false;
+				invincibleCounter=0;
+			}
+		}
+		
 	}
 	
 	boolean isAtCenterOfTile(int x, int y, int tileSize) {
@@ -175,12 +189,14 @@ public class Player extends Entity {
 				gp.ui.currentDialogue = "You got a key!";
 				gp.gameState = gp.dialogueState;
 				break;
+			
 			case "chest":
 				openChest++;
 				gp.obj[i] = null;
 				gp.ui.currentDialogue = "You have oppened a chest!";
 				gp.gameState = gp.dialogueState;
 				break;
+			
 			case "door":
 				if(hasKey > 0) {
 					gp.obj[i] = null;
@@ -199,7 +215,12 @@ public class Player extends Entity {
 				gp.ui.currentDialogue = "Speed Chest Opened!";
 				gp.gameState = gp.dialogueState;
 				break;  
-				
+			
+			case"trap":
+			    gp.ui.currentDialogue = "You stepped on a spike!";
+				gp.gameState = gp.dialogueState;
+				gp.player.life--;
+				break;  
 				
 			}
 		}
@@ -207,6 +228,14 @@ public class Player extends Entity {
 	}
 	
 	
+	public void contactMonster(int i){
+		if(i!=999){
+			if(!invincible){
+				life--;
+				invincible=true;
+			}
+		}
+	}
 	
 	
 	public void draw(Graphics2D g2){
@@ -250,7 +279,14 @@ public class Player extends Entity {
 		
 		
 		}
+		
+		/*if(invincible){
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+		}*/
+		
 		g2.drawImage(image, screenX, screenY, null);
+		
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 	
 	}
 }

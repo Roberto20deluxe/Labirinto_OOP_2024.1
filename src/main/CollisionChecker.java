@@ -150,8 +150,7 @@ public class CollisionChecker {
         
         }
         
-       
-    
         return contactPlayer;
+        
     }
 }

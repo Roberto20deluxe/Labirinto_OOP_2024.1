@@ -49,7 +49,32 @@ public class AssetSetter {
 		gp.obj[7] = new OBJ_Trap(gp);
 		gp.obj[7].worldX = 75 * gp.tileSize;
 		gp.obj[7].worldY = 73 * gp.tileSize;
-
+		
+		gp.obj[8] = new OBJ_Trap(gp);
+		gp.obj[8].worldX = 90 * gp.tileSize;
+		gp.obj[8].worldY = 120 * gp.tileSize;
+		
+		gp.obj[9] = new OBJ_Trap(gp);
+		gp.obj[9].worldX = 80 * gp.tileSize;
+		gp.obj[9].worldY = 77 * gp.tileSize;
+		
+		gp.obj[10] = new OBJ_Trap(gp);
+		gp.obj[10].worldX = 65 * gp.tileSize;
+		gp.obj[10].worldY = 78 * gp.tileSize;
+		
+		gp.obj[11] = new OBJ_Trap(gp);
+		gp.obj[11].worldX = 67 * gp.tileSize;
+		gp.obj[11].worldY = 77 * gp.tileSize;
+		
+		
+		gp.obj[12] = new OBJ_Trap(gp);
+		gp.obj[12].worldX = 59 * gp.tileSize;
+		gp.obj[12].worldY = 8 * gp.tileSize;
+		
+		gp.obj[13] = new OBJ_Trap(gp);
+		gp.obj[13].worldX = 59 * gp.tileSize;
+		gp.obj[13].worldY = 7 * gp.tileSize;
+		
 		
 		
 		

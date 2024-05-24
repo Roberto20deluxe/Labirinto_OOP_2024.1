@@ -39,17 +39,16 @@ public class GamePanel extends JPanel implements Runnable {
 	int FPS = 60;
 	
 	TileManager tileM = new TileManager(this);
-	
-	Thread gameThread; 
 	KeyHandler keyH = new KeyHandler(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
-	AssetSetter aSetter = new AssetSetter(this);
+	public AssetSetter aSetter = new AssetSetter(this);
 	public UI ui = new UI(this);
 	public EventHandler eHandler = new EventHandler(this);
+	Thread gameThread; 
 	
 	public Player player = new Player(this,keyH);
-	public Entity obj[] = new Entity[10];
-	//public Entity npc[] = new Entity[0];
+	public Entity obj[] = new Entity[30];
+	public Entity npc[] = new Entity[0];
 	public Entity monster[] = new Entity[5];
 	ArrayList<Entity> entityList = new ArrayList<>();
 
@@ -91,57 +90,44 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 	public void run() {
-		
-		double drawInterval = 1000000000/FPS; //0.01666... segundos
-		double nextDrawTime = System.nanoTime() + drawInterval;
-		
-		while(gameThread != null) {
-			
-			long currentTime = System.nanoTime();
-			
-			// 1 UPDATE: update information such as character positions
-			update();
-			
-			// 2 DRAW: draw the screen with the updated information 
-			repaint();
-			
-		try {
-			double remainingTime =  nextDrawTime - System.nanoTime();
-			remainingTime = remainingTime/1000000;
-			
-			if (remainingTime < 0) {
-				remainingTime = 0;
-				
-			}
-			
-			Thread.sleep((long) remainingTime);
-			
-			nextDrawTime += drawInterval;
-			
-		 } catch (InterruptedException e) {
-				
-				e.printStackTrace();
-				
-			}
-		
-		
-			}
-		}
-	public void update() {
-		
-		if(gameState == playState) {
-			player.update();
-			for(int i = 0 ;i < monster.length; i++){
-				if(monster[i] !=null){
-					monster[i].update();
-				}
-			}
-			
-			}
-		if(gameState == pauseState) {
-			//nada kkkk
-		}
+	    double drawInterval = 1000000000 / FPS;
+	    double nextDrawTime = System.nanoTime() + drawInterval;
+
+	    while (gameThread != null) {
+	        update();
+	        repaint();
+
+	        try {
+	            double remainingTime = nextDrawTime - System.nanoTime();
+	            remainingTime = remainingTime / 1000000;
+
+	            if (remainingTime < 0) {
+	                remainingTime = 0;
+	            }
+
+	            Thread.sleep((long) remainingTime);
+	            nextDrawTime += drawInterval;
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
+
+	public void update() {
+	    if (gameState == playState) {
+	        player.update();
+	        
+	        for (int i = 0; i < monster.length; i++) {
+	            if (monster[i] != null) {
+	                monster[i].update();
+	            }
+	        }
+	    }
+	    if (gameState == pauseState) {
+	        // nada kkkkk
+	    }
+	}
+
 		
 	public void paintComponent(Graphics g) {
 		
@@ -173,6 +159,8 @@ public class GamePanel extends JPanel implements Runnable {
 			tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
 			
 			//ENTIDADES
+			entityList.add(player);
+			
 			for(int i = 0; i < obj.length; i++) {
 			    if(obj[i] != null) {
 			        entityList.add(obj[i]);
@@ -185,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
 			
 				}
 			}
-			entityList.add(player);
+			
 
 	
 		}
@@ -217,8 +205,21 @@ public class GamePanel extends JPanel implements Runnable {
 			
 			g2.dispose();
 			
+			if(gameState==titleState){
+
+			}
+			else{
+
+				for(int i=0;i<monster.length;i++){
+					if(monster[i]!=null){
+						entityList.add(monster[i]);
+					}
+				}
+
+			}
+			
 		}
-	}
 	
+}
 
  

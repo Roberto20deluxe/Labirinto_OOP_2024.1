@@ -12,10 +12,10 @@ import main.GamePanel;
 import main.UtilityTool;
 
 public class Entity {
-	
+
 	public int worldX, worldY;
 	public int speed;
-	GamePanel gp;
+	public GamePanel gp;
 	public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
 	public String direction = "down";
 	public int spriteCounter = 0;
@@ -32,6 +32,8 @@ public class Entity {
 	
 	public boolean invincible=false;
 	public int invincibleCounter=0;
+	
+	public int type; //0=player, 2=monster
 	
 	//STATUS ENTIDADES
 	public int maxLife;
@@ -66,26 +68,39 @@ public class Entity {
 	private void setAction() {}
 	
 	public void update() {
-	    
-	    
-	    collisionOn = false; 
-	    
+		
+		setAction();
+		collisionOn = false;
 	    gp.cChecker.checkTile(this);
 	    gp.cChecker.checkObject(this, false);
 	    gp.cChecker.checkEntity(this, gp.monster);
 	    gp.cChecker.checkPlayer(this);
+	    boolean contactPlayer=gp.cChecker.checkPlayer(this);
 
-	    if (!collisionOn) { 
-
+	    if(this.type==2 && contactPlayer){
+			if(!gp.player.invincible){
+				gp.player.life-=1;
+				gp.player.invincible=true;
+			}
+		}
+	    
+	    if (!collisionOn) {
 	        switch (direction) {
-	            case "up": worldY -= speed; break;
-	            case "down": worldY += speed; break;
-	            case "left": worldX -= speed; break;
-	            case "right": worldX += speed; break;
+	            case "up":
+	                worldY -= speed;
+	                break;
+	            case "down":
+	                worldY += speed;
+	                break;
+	            case "left":
+	                worldX -= speed;
+	                break;
+	            case "right":
+	                worldX += speed;
+	                break;
 	        }
 	    }
 
-	   
 	    spriteCounter++;
 	    if (spriteCounter == 1) {
 	        spriteNum = 2;
