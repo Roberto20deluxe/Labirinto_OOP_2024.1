@@ -4,25 +4,31 @@ import java.util.Random;
 import java.awt.Rectangle;
 
 import entity.Entity;
+import main.CollisionChecker;
 import main.GamePanel;
 
 public class MON_Spider extends Entity {
 
-    public MON_Spider(GamePanel gp) {
-        super(gp);
-        
-        type = 2;
-        name = "Spider";
-        speed = 2;
-        maxLife = 4;
-        life = maxLife;
+	private CollisionChecker collisionChecker;
+	
+	public MON_Spider(GamePanel gp) {
+	    super(gp);
+	    collisionChecker = new CollisionChecker(gp); // Initialize collisionChecker properly
+	    collisionChecker.checkTile(this); // Move this line after initializing collisionChecker
 
-        hitBox = new Rectangle(8, 6, 32, 42);
-        hitBoxDefaultX = hitBox.x;
-        hitBoxDefaultY = hitBox.y;
+	    type = 2;
+	    name = "Spider";
+	    speed = 2;
+	    maxLife = 4;
+	    life = maxLife;
 
-        getImage();
-    }
+	    hitBox = new Rectangle(8, 6, 32, 42);
+	    hitBoxDefaultX = hitBox.x;
+	    hitBoxDefaultY = hitBox.y;
+
+	    getImage();
+	}
+
 
     public void getImage() {
         up1 = setup("/monster/spider1up");
@@ -59,9 +65,12 @@ public class MON_Spider extends Entity {
 
     @Override
     public void update() {
+        collisionChecker = new CollisionChecker(gp); // Update to use the existing collisionChecker
         setAction(); 
 
-        
+        int currentX = worldX;
+        int currentY = worldY;
+
         switch (direction) {
             case "up":
                 worldY -= speed;
@@ -77,22 +86,21 @@ public class MON_Spider extends Entity {
                 break;
         }
 
-        
-        hitBox.x = worldX + hitBoxDefaultX;
-        hitBox.y = worldY + hitBoxDefaultY;
+        collisionChecker.checkTile(this);
 
-       
-        gp.cChecker.checkPlayer(this);
-        gp.cChecker.checkObject(this, collision);
-        
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
+        int objectCollisionIndex = collisionChecker.checkObject(this, false);
+        if (objectCollisionIndex != 999) {
+            worldX = currentX; 
+            worldY = currentY; 
         }
+
+        collisionChecker.checkPlayer(this);
+        if (collisionOn) {
+            worldX = currentX; 
+            worldY = currentY; 
+        }
+
+        collisionOn = false;
     }
+
 }

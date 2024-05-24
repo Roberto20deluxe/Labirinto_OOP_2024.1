@@ -73,9 +73,15 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public void setupGame(){
 		
+		cChecker = new CollisionChecker(this);
+		
 		aSetter.setObject();
 		aSetter.setMonster();
 		gameState = titleState;
+		
+		
+		
+		
 		
 		
 	}

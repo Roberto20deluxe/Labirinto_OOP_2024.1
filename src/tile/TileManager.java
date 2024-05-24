@@ -31,36 +31,14 @@ public class TileManager {
 		
 	}
 
-	//Conversao da imagem para um array 2D
-	public static int[][] convertTo2D(BufferedImage image){
-
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        int[][] result = new int[width][height];
-
-        for(int row=0; row<height; row++){
-            for(int col=0; col<width; col++){
-
-                result[row][col] = image.getRGB(col, row);
-
-                System.out.print(result[row][col] + " ");
-            }
-
-            System.out.println();
-
-        }
-
-        return result;
-    }
-
-
 	public void getTileImage() {
 		
 			setup(0, "GrassTile (1)", false);
 			setup(1, "TreeTile", true);
 			setup(2, "WaterTile1", true);
 			setup(3, "SandTile", false);
+	
+		
 		
 	}
 	public void setup(int index, String imageName, boolean collision) {
