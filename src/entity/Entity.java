@@ -13,7 +13,8 @@ import main.UtilityTool;
 
 public class Entity {
 
-	public int worldX, worldY;
+	public  int worldX;
+	public  int worldY;
 	public int speed;
 	public GamePanel gp;
 	public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;

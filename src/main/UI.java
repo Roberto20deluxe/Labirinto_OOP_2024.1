@@ -181,6 +181,49 @@ public class UI {
 		}
 		
 	}
+	
+	void drawEndScreen() {
+		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,58F));
+		String text = "THE END";
+		int x =  getXforCenteredText(text);
+		int y = gp.tileSize*3;
+		
+		//SHADOW
+		g2.setColor(Color.black);
+		g2.drawString(text, x+5, y+5);
+		
+		//SHADOW++
+		g2.setColor(Color.black);
+		g2.drawString(text, x+10, y+10);
+		
+		//MAIN COLOR
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+		
+		
+		//MENU
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,38F));
+		
+		text = "RESTART";
+		x = getXforCenteredText(text);
+		y += gp.tileSize*3.5;
+		g2.drawString(text, x, y);
+		if(commandNum == 0) {
+			g2.drawString(">", x-gp.tileSize+20, y);
+		}
+		
+		text = "QUIT";
+		x = getXforCenteredText(text);
+		y += gp.tileSize;
+		g2.drawString(text, x, y);
+		if(commandNum == 1) {
+			g2.drawString(">", x-gp.tileSize+20, y);
+		}
+		
+	}
+		
+	
 
 	public void drawPauseScreen() {
 		

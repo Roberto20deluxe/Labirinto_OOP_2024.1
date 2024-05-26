@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int worldHeight = tileSize * maxWorldRow;
 	private GamePanel gp;
 	
-	
 	int FPS = 60;
 	
 	TileManager tileM = new TileManager(this);
@@ -47,9 +47,9 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread; 
 	
 	public Player player = new Player(this,keyH);
-	public Entity obj[] = new Entity[30];
+	public Entity obj[] = new Entity[45];
 	public Entity npc[] = new Entity[0];
-	public Entity monster[] = new Entity[5];
+	public Entity monster[] = new Entity[30];
 	ArrayList<Entity> entityList = new ArrayList<>();
 
 	public int gameState;
@@ -57,6 +57,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int playState = 1;
 	public final int pauseState = 2;
 	public int dialogueState = 3;
+	public final int gameOverState = 4;
+	public final int endGameState = 5;
+
 	
 	
 	public GamePanel() {
@@ -123,6 +126,10 @@ public class GamePanel extends JPanel implements Runnable {
 	    if (gameState == playState) {
 	        player.update();
 	        
+	        if (player.life <= 0) {
+	            gameState = gameOverState;
+	        }
+	        
 	        for (int i = 0; i < monster.length; i++) {
 	            if (monster[i] != null) {
 	                monster[i].update();
@@ -141,18 +148,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		Graphics2D g2 = (Graphics2D)g;  // Graphics2D class extends the graphics class to provide more sophisticated control over gemoetry, coordiante tranformations, color menagement, and text layout.
 		
-		//DEBUG
-		long drawStart = 0;
-		if(keyH.checkDrawTime == true) {
-			drawStart = System.nanoTime();
-		}
 		
-		if(keyH.checkDrawTime == true) {
-			long drawEnd = System.nanoTime();
-			long passed = drawEnd - drawStart;
-			g2.setColor(Color.white);
-			g2.drawString("DT " + passed, 510, 60);
-		}
 		
 		//TITLE SCREEN
 		if (gameState == titleState) {
@@ -164,14 +160,18 @@ public class GamePanel extends JPanel implements Runnable {
 			//TILE
 			tileM.draw(g2); //Needs to be before player.draw, if it is the opposite the tiles will be drawn above the PC
 			
-			//ENTIDADES
-			entityList.add(player);
 			
 			for(int i = 0; i < obj.length; i++) {
 			    if(obj[i] != null) {
 			        entityList.add(obj[i]);
 			    }
 			}
+			
+			//ENTIDADES
+			entityList.add(player);
+			
+			
+			
 			
 			for(int i = 0 ;i < monster.length; i++){
 				if(monster[i] !=null){
@@ -180,10 +180,33 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			
+			int nextX = player.worldX + player.speed;
+	        int nextY = player.worldY + player.speed;
 
+	        if (nextX >= 0 && nextX < worldWidght &&
+	            nextY >= 0 && nextY < worldHeight) {
+	            player.update();
+	        }
+
+	       
+	          
+	            
+	                
+	 
 	
 		}
-			
+		if (gameState == gameOverState) {
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+	        g2.setColor(Color.white);
+	        String endText = "GAME OVER";
+	        int textWidth = g2.getFontMetrics().stringWidth(endText);
+	        int textHeight = g2.getFontMetrics().getHeight();
+	        int centerX = (screenWidth - textWidth) / 2;
+	        int centerY = (screenHeight - textHeight) / 2;
+	        g2.drawString(endText, centerX, centerY);
+	    }
+		
+	
 			//SORT
 			Collections.sort(entityList, new Comparator<Entity>() {
 
@@ -207,9 +230,11 @@ public class GamePanel extends JPanel implements Runnable {
 			//UI
 			ui.draw(g2);
 			
+			//drawPlayerPosition(g2);
 			
 			
-			g2.dispose();
+			
+			
 			
 			if(gameState==titleState){
 
@@ -224,7 +249,31 @@ public class GamePanel extends JPanel implements Runnable {
 
 			}
 			
+			if(gameState == endGameState) {
+				ui.drawEndScreen();
+				
+			}
+			
+			g2.dispose();
 		}
+			
+	/*public void drawPlayerPosition(Graphics2D g2) {
+	    g2.setColor(Color.RED); 
+	    Font originalFont = g2.getFont();
+	    Font newFont = originalFont.deriveFont(20f); 
+	    g2.setFont(newFont); 
+	    
+	    int tileX = player.worldX / tileSize;
+	    int tileY = player.worldY / tileSize;
+	    
+	   
+	    g2.drawString("Player Position: (" + tileX + ", " + tileY + ")", 10, 20);
+	    
+	    g2.setFont(originalFont);
+	}*/
+
+
+
 	
 }
 

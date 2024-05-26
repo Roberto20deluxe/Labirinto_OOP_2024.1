@@ -46,13 +46,13 @@ public class Player extends Entity {
 	}
 	public void defaultValues() {
 		
-		worldX = gp.tileSize*70;
-		worldY = gp.tileSize*71;
-		speed = 2;
+		worldX = gp.tileSize*30;
+		worldY = gp.tileSize*138;
+		speed = 1;
 		direction = "down";
 		
 		// STATUS DO JOGADOR
-		maxLife = 6+1;
+		maxLife = 6;
 		life = maxLife;
 		
 	}
@@ -72,7 +72,7 @@ public class Player extends Entity {
 	}
 	
 	
-		public void update() {
+	public void update() {
 		
 		if(keyH.upPressed == true || keyH.leftPressed == true || keyH.downPressed == true || keyH.rightPressed == true) {
 			
@@ -110,8 +110,8 @@ public class Player extends Entity {
 			
 			
 			//checar colisao do monster
-			int monsterIndex=gp.cChecker.checkEntity(this, gp.monster);
-			contactMonster(monsterIndex);
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			contactMonster(monsterIndex); 
 			
 			
 			
@@ -145,7 +145,7 @@ public class Player extends Entity {
 			
 			
 			spriteCounter++;
-			if (spriteCounter > 10) {
+			if (spriteCounter > 25) {
 				if(spriteNum == 1) {
 					spriteNum = 2;
 				}
@@ -157,13 +157,21 @@ public class Player extends Entity {
 			
 		}
 		
-		if(invincible){
-			invincibleCounter++;
-			if(invincibleCounter>6000){
-				invincible=false;
-				invincibleCounter=0;
-			}
+		if (invincible) {
+	    
+	        invincibleCounter++;
+	        if (invincibleCounter >40) {
+	            invincible = false;
+	            invincibleCounter = 0;
+	        }
+	    }
+		
+		
+		if (life <= 0) {
+		    gp.gameState = gp.gameOverState;
 		}
+
+
 		
 	}
 	
@@ -193,8 +201,14 @@ public class Player extends Entity {
 			case "chest":
 				openChest++;
 				gp.obj[i] = null;
-				gp.ui.currentDialogue = "You have oppened a chest!";
-				gp.gameState = gp.dialogueState;
+				if(gp.player.life <= 5) {
+					gp.ui.currentDialogue = "You drank a health potion!";
+					gp.gameState = gp.dialogueState;
+					gp.player.life++;}
+				else {
+					gp.ui.currentDialogue = "You are at full health";
+					gp.gameState = gp.dialogueState;
+				}
 				break;
 			
 			case "door":
@@ -202,7 +216,7 @@ public class Player extends Entity {
 					gp.obj[i] = null;
 					hasKey--;
 					gp.ui.currentDialogue = "Door unlocked";
-					gp.gameState = gp.dialogueState;
+					gp.gameState = gp.endGameState;
 				}else {
 					gp.ui.currentDialogue = "You need a key";
 					gp.gameState = gp.dialogueState;
@@ -210,10 +224,17 @@ public class Player extends Entity {
 					break;
 				
 			case "speedChest":
-				speed = (int) (speed*1.5);
-				gp.obj[i] = null;
-				gp.ui.currentDialogue = "Speed Chest Opened!";
+				
+				
+				gp.ui.currentDialogue = "Speed Chest Opened!" + "\n You can now run";
 				gp.gameState = gp.dialogueState;
+				gp.obj[i] = null;
+				
+				while(keyH.shiftPressed == true) {
+					speed = (int) (speed*2);
+					}
+					
+				
 				break;  
 			
 			case"trap":
@@ -228,13 +249,12 @@ public class Player extends Entity {
 	}
 	
 	
-	public void contactMonster(int i){
-		if(i!=999){
-			if(!invincible){
-				life--;
-				invincible=true;
-			}
-		}
+	public void contactMonster(int i) {
+	    if (i != 999 && !invincible) {
+	        life--;
+	        invincible = true;
+	        invincibleCounter = 0;
+	    }
 	}
 	
 	
@@ -280,9 +300,9 @@ public class Player extends Entity {
 		
 		}
 		
-		/*if(invincible){
+		if(invincible == true){
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-		}*/
+		}
 		
 		g2.drawImage(image, screenX, screenY, null);
 		

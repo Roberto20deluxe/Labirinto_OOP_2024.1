@@ -13,12 +13,12 @@ public class MON_Spider extends Entity {
 	
 	public MON_Spider(GamePanel gp) {
 	    super(gp);
-	    collisionChecker = new CollisionChecker(gp); // Initialize collisionChecker properly
-	    collisionChecker.checkTile(this); // Move this line after initializing collisionChecker
+	    collisionChecker = new CollisionChecker(gp);
+	    collisionChecker.checkTile(this); 
 
 	    type = 2;
 	    name = "Spider";
-	    speed = 2;
+	    speed = 3;
 	    maxLife = 4;
 	    life = maxLife;
 
@@ -44,7 +44,7 @@ public class MON_Spider extends Entity {
     public void setAction() {
         actionLockCounter++;
 
-        int directionChangeSpeed = 100;
+        int directionChangeSpeed = 20;
         if (actionLockCounter >= directionChangeSpeed) {
             Random random = new Random();
             int i = random.nextInt(100) + 1;
@@ -65,7 +65,7 @@ public class MON_Spider extends Entity {
 
     @Override
     public void update() {
-        collisionChecker = new CollisionChecker(gp); // Update to use the existing collisionChecker
+        collisionChecker = new CollisionChecker(gp); 
         setAction(); 
 
         int currentX = worldX;

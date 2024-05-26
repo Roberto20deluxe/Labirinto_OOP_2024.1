@@ -26,7 +26,7 @@ public class EventHandler {
 
     public void checkEvent(){
         if (!eventRect[75][73].eventDone && hit(75, 73, "right")) { 
-            damageTrap(75, 72, gp.dialogueState);
+      
         }
         /*if (hit(72,72,"any") == true) {
             healingThing(72, 72, gp.dialogueState);
@@ -68,10 +68,8 @@ public class EventHandler {
     }
     
     public void damageTrap(int col, int row, int gameState){
-        gp.gameState = gameState;
-        gp.ui.currentDialogue = "YOU FELL FOR A TRAP";
-        gp.gameState = gp.dialogueState;
-        gp.player.life--;
+ 
+   
         
     }
     public void healingThing(int col, int row, int gameState) {
