@@ -74,30 +74,31 @@ public class Player extends Entity {
 	
 	public void update() {
 		
-		if(keyH.upPressed == true || keyH.leftPressed == true || keyH.downPressed == true || keyH.rightPressed == true) {
-			
-			
-			
-			if(keyH.upPressed == true) {
-				direction = "up";
+		
+			if(keyH.upPressed == true || keyH.leftPressed == true || keyH.downPressed == true || keyH.rightPressed == true && gp.gameState == gp.playState) {
 				
 				
-			}
-			
-			else if(keyH.leftPressed == true) {
-				direction = "left";
 				
-			}
-			
-			else if(keyH.rightPressed == true) {
-				direction = "right";
+				if(keyH.upPressed == true) {
+					direction = "up";
+					
+					
+				}
 				
-			}
-			
-			else if(keyH.downPressed == true) {
-				direction = "down";
+				else if(keyH.leftPressed == true) {
+					direction = "left";
+					
+				}
 				
-			}
+				else if(keyH.rightPressed == true) {
+					direction = "right";
+					
+				}
+				
+				else if(keyH.downPressed == true) {
+					direction = "down";
+					
+				}
 			
 			//Checar colisão do tile
 			collisionOn = false;
@@ -224,23 +225,17 @@ public class Player extends Entity {
 					break;
 				
 			case "speedChest":
-				
-				
-				gp.ui.currentDialogue = "Speed Chest Opened!" + "\n You can now run";
+				gp.ui.currentDialogue = "Speed Chest Opened!";
 				gp.gameState = gp.dialogueState;
+				speed = (int) (speed*2);
 				gp.obj[i] = null;
-				
-				while(keyH.shiftPressed == true) {
-					speed = (int) (speed*2);
-					}
-					
-				
 				break;  
 			
 			case"trap":
 			    gp.ui.currentDialogue = "You stepped on a spike!";
 				gp.gameState = gp.dialogueState;
-				gp.player.life--;
+				contactMonster(i);
+				
 				break;  
 				
 			}
