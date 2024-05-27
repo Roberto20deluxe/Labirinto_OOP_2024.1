@@ -1,4 +1,4 @@
-# Labyrinth of Leaves and Men
+# Labyrinth of Leaves
 
 **Universidade Católica de Pernambuco**
 
