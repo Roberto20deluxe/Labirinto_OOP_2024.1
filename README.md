@@ -41,6 +41,18 @@ O mapa em si é um .txt (res -> maps -> WorldMap.txt) que é representado pelo T
 Existe alguns usos de arrays e arraylist, como por exemplo, na classe Gamepanel onde existe um Arraylist para as Entidades, contendo todas as entidades presentes no mapas e suas informações.
 
 ### Tratamento de exceções
-Existe uma variedade de tratamentos de exceções, como tentando acessar uma imagem de um grafico que não existe
+Existe uma variedade de tratamentos de exceções, como tentando acessar uma imagem de um grafico que não existe.
+Pode ser que haja problema caso o jogador se mover fora do mapa, mas o layout do labirinto não permite isso
+Não achamos nenhuma forma de dar crash no jogo apenas o jogando.
 
-// wip : completar o resto dessas descrições //
+
+### Polimorfismo
+A classe entidade e suas funções podem assumir varias formas, como jogadores, inimigos e objetos (ex tesouros).
+Por exemplo, função update() do aventureiro determina o seu movimento com base no comando do jogador, enquanto MON_Spider.update() determina o movimento das aranhas de forma espontânea e randomica.
+
+### Abstração
+Existe um certo uso de abstração, entidades atualizam seu status por suas funções update (ex : mudam de posição caso se movendo), dependendo do tipo de entidade podem verificar certo tipo de colisão, o jogador pode perder pontos de vida, etc
+
+### Encapsulamento 
+Existe alguns usos de encapsulamento, como as ações de cada entidade especifica serem privadas, visiveis apenas a si mesmo.
+
