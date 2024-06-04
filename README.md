@@ -1,59 +1,58 @@
-# Projeto: Labirinto
+# Labyrinth of Leaves
+
 **Universidade Católica de Pernambuco**
 
 **Alunos:** 
 - Maria Luiza Ribeiro de Lima (**RA:** 00000848982)
 - Roberto Regis de Araújo Lima Neto (**RA:** 00000848959)
 - Vínicius Martins Galindo Andrade (**RA:** 00000848753)
-- Matheus Veríssimo Rodrigues (**RA:** 00000850062)
-- Victor Hugo José Sales da Silva (**RA:** 00000849201)
+- Matheus Veríssimo Rodrigues Pinheiro (**RA:** 00000850062)
+- Vitor Hugo José Sales da Silva (**RA:** 00000849201)
 
 **Disciplina:** Programação Orientada a Objetos (2024.1)
 
-**Professor:** Lucas Rodolfo 
+**Professor:** Lucas Rodolfo
+
+Labyrinth of Leaves é um jogo desenvolvido em Java para a cadeira de Programação Orientada a Objetos. O objetivo do jogo é guiar o personagem Greg na busca pela saída de um labirinto repleto de desafios. Greg deve encontrar chaves espalhadas pelo caminho para destrancar a porta final e, assim, escapar. Durante sua jornada, ele precisa evitar perigos como aranhas e armadilhas mortais que podem acabar com sua aventura.
+
+![gameplay1](https://github.com/Roberto20deluxe/Labirinto_OOP_2024.1/blob/main/img/40s1.gif?raw=true)
+
+![gameplay1](https://github.com/Roberto20deluxe/Labirinto_OOP_2024.1/blob/main/img/40s2.gif?raw=true)
+
+![gameplay1](https://github.com/Roberto20deluxe/Labirinto_OOP_2024.1/blob/main/img/40s4.gif?raw=true)
 
 
-# Requisitos do Projeto:
 
-**1. Classes(10%):**
+## Requisitos Minimos
 
-    •Aventureiro: Esta classe representa o bravo aventureiro no jogo. 
+### Classes
+Aventureiro : O nosso aventureiro é representado na classe Player, subclasse de Entidade
+As principais funcionalidades dessa classe são o estado do jogador (vida, adquirir items, etc), atualizar os sprites do personagem, chamar os estados de final do jogo (0 de vida, fim do labirinto), entre outras, alem de vários parametros como a posição de spawn
 
-     -Atributos: nome, localização atual no labirinto, tesouros coletados(ArrayList) 
-     -Métodos: getters e setters para os atributos, mover-se pelo labirinto, coletar tesouro.
+Tesouro : Os nossos tesouros são representados por classes do package Objetos, que tambem são uma sublasse de Entidade. Eles podem ser encontrados nos baus espalhados pelo mapa.
 
-    •Tesouro: Esta classe representa um tesouro que pode ser descoberto no jogo. 
+Perigo : Temos um package Monstro para representar monstros, perigos vivos do labirinto. Temos lá a classe aranha, que se move em direções aleatorias e tira parte da vida do jogador quando entra em contato.
+Tambem temos um Objeto Armadilha que tira a vida do personagem quando ele passa na mesma tile.
 
-      -Atributos: nome, localização no labirinto, valor em pontos.
-      -Métodos: getters e setters para os atributos.
+Labirinto : A logica principal do labirinto está contido no package Main, des da janela do jogo, a checagem de colisão, o tratamento dos inputs do jogador, a lista de entidades e suas posições, aos graficos e os eventos, entre outros. 
+O mapa em si é um .txt (res -> maps -> WorldMap.txt) que é representado pelo TileManager.
 
-    •Perigo: Esta classe representa um perigo/armadilha que o aventureiro deve evitar no jogo. 
+### Coleções 
+Existe alguns usos de arrays e arraylist, como por exemplo, na classe Gamepanel onde existe um Arraylist para as Entidades, contendo todas as entidades presentes no mapas e suas informações.
 
-     -Atributos: localização no labirinto, dano potencial.
-     -Métodos: getters e setters para os atributos.
+### Tratamento de exceções
+Existe uma variedade de tratamentos de exceções, como tentando acessar uma imagem de um grafico que não existe.
+Pode ser que haja problema caso o jogador se mover fora do mapa, mas o layout do labirinto não permite isso
+Não achamos nenhuma forma de dar crash no jogo apenas o jogando.
 
-    •Labirinto: Esta classe representa o labirinto e contém a lógica principal do jogo. 
 
-      -Atributos: estrutura do labirinto (ArrayList de ArrayLists), lista de tesouros (ArrayList), lista de perigos (ArrayList).
-      -Métodos: gerar labirinto, adicionar tesouro, remover tesouro, adicionar perigo, remover perigo.
-      
-      
-**2. Coleções (10%):** Utilizar coleções (como ArrayList) para armazenar a lista de tesouros coletados pelo aventureiro (na classe Aventureiro), a estrutura do labirinto, a lista de tesouros e a lista de perigos no labirinto (na classe Labirinto).
+### Polimorfismo
+A classe entidade e suas funções podem assumir varias formas, como jogadores, inimigos e objetos (ex tesouros).
+Por exemplo, função update() do aventureiro determina o seu movimento com base no comando do jogador, enquanto MON_Spider.update() determina o movimento das aranhas de forma espontânea e randomica.
 
-**3. Tratamento de Exceções (10%):** Implementar tratamento de exceções para garantir uma experiência de jogo suave. Por exemplo, tratar situações como o aventureiro tentando se mover para uma posição fora do labirinto ou tentando coletar um tesouro que não está na mesma posição que o aventureiro.
+### Abstração
+Existe um certo uso de abstração, entidades atualizam seu status por suas funções update (ex : mudam de posição caso se movendo), dependendo do tipo de entidade podem verificar certo tipo de colisão, o jogador pode perder pontos de vida, etc
 
-**4. Polimorfismo (5%):** Implementar polimorfismo na classe Tesouro. Por exemplo, a classe Tesouro pode ter um método efeito() que é sobrescrito nas classes que herdam de *Tesouro* para implementar diferentes efeitos quando o tesouro é coletado pelo aventureiro.
+### Encapsulamento 
+Existe alguns usos de encapsulamento, como as ações de cada entidade especifica serem privadas, visiveis apenas a si mesmo.
 
-**5. Abstração (5%):** A abstração é implementada através das classes e métodos descritos acima. Cada classe representa uma entidade distinta (Aventureiro, Tesouro, Perigo, Labirinto) e cada método representa uma ação que pode ser realizada por essa entidade.
-
-**6. Encapsulamento (5%):** O encapsulamento é implementado através do uso de modificadores de acesso (private, public) para os atributos das classes. Os atributos são definidos como privados e são acessados através de métodos públicos (getters e setters).
-
-**7. Entrega (5%):** Link do GitHub via Teams. No GitHub deve conter o código, além de screenshots da interface do usuário. Um readme com uma breve descrição do que foi feito deve estar preenchido. A equipe toda deve ter acesso ao GitHub compartilhado (é um projeto em equipe).
-
-**8. Requisitos adicionais (20%):** Será considerado o que for feito além do requerimento mínimo esperado.
-
-**9. Easter Egg (10%):** Faça algo que torne o seu projeto inesquecível.
-
-**10. Apresentação (20%):** Pitch de no máximo 10 minutos vendendo a ideia. Será avaliado pela turma (cliente em potencial) por votação (kahoot) qual o melhor projeto (comprou a ideia) entre dois projetos apresentados. 
-
-**Observação:** Você tem liberdade para criar um ou vários contextos para o jogo. Seja criativo! Talvez o labirinto seja uma antiga pirâmide egípcia ou um castelo assombrado. Deixe sua imaginação correr solta!
