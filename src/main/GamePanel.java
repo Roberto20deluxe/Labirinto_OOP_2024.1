@@ -8,9 +8,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import javax.swing.JPanel;
-
 import entity.Entity;
 import entity.Player;
 import tile.TileManager;
